@@ -65,8 +65,10 @@ namespace ezStock.Controllers
     public class StockUtil
     {
         // 本國上市證券國際證券辨識號碼一覽表
+        // https://quality.data.gov.tw/dq_download_json.php?nid=18419&md5_url=9791ec942cbcb925635aa5612ae95588
         private const string _url2 = "http://isin.twse.com.tw/isin/C_public.jsp?strMode=2";
         // 本國上櫃證券國際證券辨識號碼一覽表
+        // https://quality.data.gov.tw/dq_download_json.php?nid=28568&md5_url=7c1850be92ee9191486528d32244b751
         private const string _url4 = "http://isin.twse.com.tw/isin/C_public.jsp?strMode=4";
 
         // TODO: 要存在JSON定期更新，避免記憶體使用過大
