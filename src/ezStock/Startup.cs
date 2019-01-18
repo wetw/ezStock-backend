@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 
@@ -22,7 +25,16 @@ namespace ezStock
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Latest)
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeHtml;
+                });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" }));
