@@ -1,4 +1,5 @@
-﻿using ezStock.Filters;
+﻿using ezStock.DependencyInjection;
+using ezStock.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -20,17 +21,17 @@ namespace ezStock
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddServices(_configuration);
             services.AddHttpClient();
             services.AddMvc(options =>
                 {
