@@ -26,4 +26,8 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ezStock.twse\ezStock.twse.csproj" />
+  </ItemGroup>
+
 </Project>

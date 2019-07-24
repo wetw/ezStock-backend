@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WE.Application.Tests", "tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5946BA5A-D408-4125-963C-F532D36825E0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ezStock.twse", "src\ezStock.twse\ezStock.twse.csproj", "{097E1AFF-FCE7-435E-8416-7B5FF6F535D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CF7152DB-1566-4691-86D1-14C281D4679D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF7152DB-1566-4691-86D1-14C281D4679D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF7152DB-1566-4691-86D1-14C281D4679D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{097E1AFF-FCE7-435E-8416-7B5FF6F535D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{097E1AFF-FCE7-435E-8416-7B5FF6F535D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{097E1AFF-FCE7-435E-8416-7B5FF6F535D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{097E1AFF-FCE7-435E-8416-7B5FF6F535D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{D2C94035-838B-4237-918F-7FF3D33D8519} = {E2E8C414-91CB-493B-B5FD-89F3D87ACF3E}
 		{3E2A064A-179A-4C11-A256-86A760CB287F} = {E2E8C414-91CB-493B-B5FD-89F3D87ACF3E}
 		{CF7152DB-1566-4691-86D1-14C281D4679D} = {5946BA5A-D408-4125-963C-F532D36825E0}
+		{097E1AFF-FCE7-435E-8416-7B5FF6F535D8} = {E2E8C414-91CB-493B-B5FD-89F3D87ACF3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7E30D72-F04B-4203-892A-D15F69E972D5}
