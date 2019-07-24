@@ -1,4 +1,5 @@
 ﻿using Refit;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ezStock.twse
@@ -10,8 +11,12 @@ namespace ezStock.twse
 
         public ExchangeReportServices()
         {
-            //_httpClient = new HttpClient(new HttpClientDiagnosticsHandler());
             _exchangeReport = RestService.For<IExchangeReport>(BaseUrl);
+        }
+
+        public ExchangeReportServices(HttpClient httpClient)
+        {
+            _exchangeReport = RestService.For<IExchangeReport>(httpClient);
         }
 
         public async Task<object> GetAsync(string date, string type = "ALL", string response = "json")

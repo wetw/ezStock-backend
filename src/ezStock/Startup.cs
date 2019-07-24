@@ -32,7 +32,6 @@ namespace ezStock
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddServices(_configuration);
-            services.AddHttpClient();
             services.AddMvc(options =>
                 {
                     options.Filters.Add(new UnhandledExceptionFilterAttribute()
