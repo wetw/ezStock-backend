@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using ezStock.Filters;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Security;
+using System.Security.Authentication;
 using System.Text;
 
 namespace ezStock
@@ -25,7 +32,26 @@ namespace ezStock
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
-            services.AddMvc()
+            services.AddMvc(options =>
+                {
+                    options.Filters.Add(new UnhandledExceptionFilterAttribute()
+                        .Register<InvalidOperationException>(HttpStatusCode.BadRequest) //400
+                        .Register<ArgumentException>(HttpStatusCode.BadRequest)
+                        .Register<ArgumentNullException>(HttpStatusCode.BadRequest)
+                        .Register<ArgumentOutOfRangeException>(HttpStatusCode.BadRequest)
+                        .Register<AuthenticationException>(HttpStatusCode.Unauthorized) //401
+                        .Register<UnauthorizedAccessException>(HttpStatusCode.Unauthorized)
+                        .Register<InvalidCredentialException>(HttpStatusCode.Unauthorized)
+                        .Register<SecurityException>(HttpStatusCode.Forbidden) //403
+                        .Register<KeyNotFoundException>(HttpStatusCode.NotFound) //404
+                        .Register<FileNotFoundException>(HttpStatusCode.NotFound)
+                        .Register<DirectoryNotFoundException>(HttpStatusCode.NotFound)
+                        .Register<IndexOutOfRangeException>(HttpStatusCode.NotFound)
+                        .Register<TimeoutException>(HttpStatusCode.RequestTimeout) //408
+                        .Register<OutOfMemoryException>(HttpStatusCode.RequestEntityTooLarge) //413
+                        .Register<InsufficientMemoryException>(HttpStatusCode.RequestEntityTooLarge)
+                        .Register<NotSupportedException>(HttpStatusCode.UnsupportedMediaType)); //415
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddJsonOptions(options =>
                 {
