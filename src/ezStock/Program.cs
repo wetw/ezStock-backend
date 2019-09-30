@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using NLog.Web;
 using System;
 using System.IO;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using NLog.Web;
 
 namespace ezStock
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -18,7 +16,7 @@ namespace ezStock
             {
                 nLogConfigName = $"NLog.{env}.config";
             }
-            var logger = NLogBuilder.ConfigureNLog(nLogConfigName).GetCurrentClassLogger();
+            NLogBuilder.ConfigureNLog(nLogConfigName).GetCurrentClassLogger();
             CreateWebHostBuilder(args).Build().Run();
         }
 
