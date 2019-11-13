@@ -1,6 +1,16 @@
-﻿using ezStock.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Security;
+using System.Security.Authentication;
+using System.Text;
+using ezStock.DependencyInjection;
 using ezStock.Filters;
+using ezStock.HealthChecks;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,13 +19,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Security;
-using System.Security.Authentication;
-using System.Text;
 
 namespace ezStock
 {
@@ -62,6 +65,10 @@ namespace ezStock
                     options.SerializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeHtml;
                 });
 
+            services.AddHealthChecks()
+                .AddMemoryHealthCheck("Memory")
+                .AddUrlGroup(new Uri("https://www.twse.com.tw/exchangeReport/MI_INDEX"), "TWSE API");
+            services.AddHealthChecksUI();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
         }
@@ -78,14 +85,21 @@ namespace ezStock
                 app.UseHsts();
             }
 
+            app.UseHealthChecks("/hc", new HealthCheckOptions
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            })
+                .UseHealthChecksUI(options => options.UIPath = "/hc-ui");
+
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
+            app.UseSwagger()
+                .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
 
-            app.UseRouting();
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseRouting()
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }
