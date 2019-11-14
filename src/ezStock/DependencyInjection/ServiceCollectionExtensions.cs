@@ -12,10 +12,7 @@ namespace ezStock.DependencyInjection
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHttpClient<ExchangeReportServices>()
-                .ConfigureHttpClient((resolver, client) =>
-                {
-                    client.BaseAddress = new Uri("https://www.twse.com.tw");
-                })
+                .ConfigureHttpClient((_, client) => client.BaseAddress = new Uri("https://www.twse.com.tw"))
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Set lifetime to five minutes
                 .AddPolicyHandler(_ => HttpPolicyExtensions
                     .HandleTransientHttpError()

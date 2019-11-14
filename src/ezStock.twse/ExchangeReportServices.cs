@@ -1,6 +1,9 @@
-﻿using Refit;
+﻿using ezStock.twse.Converter;
+using Refit;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using WE.Domain.Transaction;
 
 namespace ezStock.twse
 {
@@ -22,6 +25,12 @@ namespace ezStock.twse
         public async Task<object> GetAsync(string date, string type = "ALL", string response = "json")
         {
             return await _exchangeReport.GetAsync(date, type, response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<TransactionInfo>> GetMonthlyTransaction(string date, string stockNo)
+        {
+            return (await _exchangeReport.GetMonthlyTransaction(date, stockNo).ConfigureAwait(false))
+                .Convert();
         }
     }
 }

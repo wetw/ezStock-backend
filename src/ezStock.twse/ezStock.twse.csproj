@@ -8,4 +8,8 @@
     <PackageReference Include="Refit" Version="4.7.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WE.Domain\WE.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

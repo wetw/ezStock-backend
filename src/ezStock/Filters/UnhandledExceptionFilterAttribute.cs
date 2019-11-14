@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Concurrent;
 using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ezStock.Filters
 {
@@ -24,7 +24,7 @@ namespace ezStock.Filters
         /// <param name="context">The context for the action.</param>
         public override void OnException(ExceptionContext context)
         {
-            if (context == null || context.Exception == null)
+            if (context?.Exception == null)
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace ezStock.Filters
         public UnhandledExceptionFilterAttribute Register<TException>(HttpStatusCode statusCode)
             where TException : Exception
         {
-            _statusHandlers.AddOrUpdate(typeof(TException), statusCode, (key, oldValue) => statusCode);
+            _statusHandlers.AddOrUpdate(typeof(TException), statusCode, (_, __) => statusCode);
 
             return this;
         }
@@ -80,7 +80,7 @@ namespace ezStock.Filters
                 throw new ArgumentNullException(nameof(handler));
             }
 
-            _delegateHandlers.AddOrUpdate(typeof(TException), handler, (key, oldValue) => handler);
+            _delegateHandlers.AddOrUpdate(typeof(TException), handler, (_, __) => handler);
 
             return this;
         }

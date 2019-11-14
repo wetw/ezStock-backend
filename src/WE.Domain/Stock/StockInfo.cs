@@ -2,6 +2,11 @@
 {
     public class StockInfo
     {
+        public StockInfo(string code)
+        {
+            Code = code;
+        }
+
         public virtual string Code { get; }
         public virtual string Name { get; }
         public virtual string FullName { get; }
