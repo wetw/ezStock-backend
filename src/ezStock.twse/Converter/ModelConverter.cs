@@ -13,14 +13,14 @@ namespace ezStock.twse.Converter
             return value.data.Select(x => new TransactionInfo
             {
                 Date = DateTime.ParseExact(x[(int)DataDetail.Date], "yyy/MM/dd", CultureInfo.InvariantCulture).AddYears(1911),
-                TradingVolume = int.Parse(x[(int)DataDetail.TradingVolume], NumberStyles.AllowThousands, CultureInfo.CurrentCulture),
-                TurnOver = int.Parse(x[(int)DataDetail.TurnOver], NumberStyles.AllowThousands, CultureInfo.CurrentCulture),
-                OpeningPrice = decimal.Parse(x[(int)DataDetail.OpeningPrice], CultureInfo.CurrentCulture),
-                HightestPrice = decimal.Parse(x[(int)DataDetail.HightestPrice], CultureInfo.CurrentCulture),
-                LowestPrice = decimal.Parse(x[(int)DataDetail.LowestPrice], CultureInfo.CurrentCulture),
-                ClosePrice = decimal.Parse(x[(int)DataDetail.ClosePrice], CultureInfo.CurrentCulture),
+                TradingVolume = long.TryParse(x[(int)DataDetail.TradingVolume], NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out var tV) ? tV : 0,
+                TurnOver = long.TryParse(x[(int)DataDetail.TurnOver], NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out var tO) ? tO : 0,
+                OpeningPrice = decimal.TryParse(x[(int)DataDetail.OpeningPrice], out var op) ? op : 0,
+                HightestPrice = decimal.TryParse(x[(int)DataDetail.HightestPrice], out var hp) ? hp : 0,
+                LowestPrice = decimal.TryParse(x[(int)DataDetail.LowestPrice], out var lp) ? lp : 0,
+                ClosePrice = decimal.TryParse(x[(int)DataDetail.ClosePrice], out var cp) ? cp : 0,
                 SpreadPercent = x[(int)DataDetail.SpreadPercent],
-                TotalCount = int.Parse(x[(int)DataDetail.TotalCount], NumberStyles.AllowThousands, CultureInfo.CurrentCulture)
+                TotalCount = int.TryParse(x[(int)DataDetail.TotalCount], NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out var tc) ? tc : 0
             });
         }
     }

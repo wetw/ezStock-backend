@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace WE.Domain.Transaction
 {
@@ -12,12 +12,12 @@ namespace WE.Domain.Transaction
         /// <summary>
         /// 成交股數
         /// </summary>
-        public int TradingVolume { get; set; }
+        public long TradingVolume { get; set; }
 
         /// <summary>
         /// 成交金額
         /// </summary>
-        public int TurnOver { get; set; }
+        public long TurnOver { get; set; }
 
         /// <summary>
         /// 開盤價
