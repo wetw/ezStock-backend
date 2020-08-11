@@ -68,7 +68,8 @@ namespace ezStock
             services.AddHealthChecks()
                 .AddMemoryHealthCheck("Memory")
                 .AddUrlGroup(new Uri("https://www.twse.com.tw/exchangeReport/MI_INDEX"), "TWSE API");
-            services.AddHealthChecksUI();
+            services.AddHealthChecksUI()
+                .AddInMemoryStorage();
             services.AddHttpContextAccessor();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }));
@@ -90,16 +91,16 @@ namespace ezStock
             app.UseCors();
 
             app.UseAuthentication();
-            app.UseAuthorization();
-
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwagger()
                 .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
 
-            app.UseRouting()
-                .UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions
